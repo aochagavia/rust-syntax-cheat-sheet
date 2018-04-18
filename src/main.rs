@@ -219,13 +219,17 @@ fn main() {
     println!("{:?}", another_point.multiply(2).get_x()); // 2
 
     /////////////////////
-    // 4. Control flow //
+    // 5. Control flow //
     /////////////////////
 
     // `for` loops/iteration
     let array = [1, 2, 3];
     for i in array.iter() {
         println!("{}", i);
+    }
+
+    for x in vec![true, false] {
+        println!("{}", x);
     }
 
     // Ranges
