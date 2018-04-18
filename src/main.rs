@@ -48,7 +48,7 @@ fn main() {
 
     // Strings //
 
-    // String literals
+    // String literal
     let x: &str = "hello world!";
 
     // Printing
@@ -105,39 +105,12 @@ fn main() {
 
     // The only way to build a struct is by providing values for all its fields,
     // as shown below
-    let origin: Point = Point { x: 0, y: 0 };
+    let origin = Point { x: 0, y: 0 };
 
     // A struct with unnamed fields, called a ‘tuple struct’
     struct Point2(i32, i32);
 
     let origin2 = Point2(0, 0);
-
-    // Basic C-like enum
-    enum Direction {
-        Left,
-        Right,
-        Up,
-        Down,
-    }
-
-    let up = Direction::Up;
-
-    // Enum with fields
-    enum OptionalI32 {
-        AnI32(i32),
-        Nothing,
-    }
-
-    let two: OptionalI32 = OptionalI32::AnI32(2);
-    let nothing = OptionalI32::Nothing;
-
-    // Generics //
-
-    struct Foo<T> { bar: T }
-
-    fn identity<T>(x: T) -> T {
-        x
-    }
 
     // Methods //
 
@@ -161,23 +134,34 @@ fn main() {
     let a_point = Point::new_point(1, 2);
     println!("{}", a_point.get_x()); // 1
 
-    // Traits (known as interfaces or typeclasses in other languages) //
+    // Enums
 
-    trait Multiply {
-        fn multiply(self, factor: i32) -> Self;
+    // Basic C-like enum
+    enum Direction {
+        Left,
+        Right,
+        Up,
+        Down,
     }
 
-    impl Multiply for Point {
-        fn multiply(self, factor: i32) -> Point {
-            Point {
-                x: self.x * factor,
-                y: self.y * factor
-            }
+    let up = Direction::Up;
+
+    // Enum with fields
+    enum OptionalI32 {
+        AnI32(i32),
+        Nothing,
+    }
+
+    let two: OptionalI32 = OptionalI32::AnI32(2);
+    let nothing = OptionalI32::Nothing;
+
+    // Enums also support methods
+
+    impl OptionalI32 {
+        fn new(x: i32) -> OptionalI32  {
+            OptionalI32::AnI32(x)
         }
     }
-
-    let another_point = Point { x: 1, y: 2 };
-    println!("{:?}", another_point.multiply(2).get_x()); // 2
 
     /////////////////////////
     // 3. Pattern matching //
@@ -205,6 +189,34 @@ fn main() {
         FooBar { x: _, y: OptionalI32::Nothing } =>
             println!("The second number is Nothing!"),
     }
+
+    /////////////////
+    // 4. Generics //
+    /////////////////
+
+    struct Foo<T> { bar: T }
+
+    fn identity<T>(x: T) -> T {
+        x
+    }
+
+    // Traits (known as interfaces or typeclasses in other languages) //
+
+    trait Multiply {
+        fn multiply(self, factor: i32) -> Self;
+    }
+
+    impl Multiply for Point {
+        fn multiply(self, factor: i32) -> Point {
+            Point {
+                x: self.x * factor,
+                y: self.y * factor
+            }
+        }
+    }
+
+    let another_point = Point { x: 1, y: 2 };
+    println!("{:?}", another_point.multiply(2).get_x()); // 2
 
     /////////////////////
     // 4. Control flow //
