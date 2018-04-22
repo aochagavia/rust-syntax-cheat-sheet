@@ -8,9 +8,9 @@
 /// let five = 5
 /// ```
 
-///////////////
-// 1. Basics //
-///////////////
+////////////
+// Basics //
+////////////
 
 // Functions
 // `i32` is the type for 32-bit signed integers
@@ -93,9 +93,9 @@ fn main() {
     // Indexing
     println!("{}", x.1); // hello
 
-    //////////////
-    // 2. Types //
-    //////////////
+    ///////////
+    // Types //
+    ///////////
 
     // Struct
     struct Point {
@@ -124,10 +124,7 @@ fn main() {
 
         // Static methods have no `self` parameter
         fn new_point(a: i32, b: i32) -> Point {
-            Point {
-                x: a,
-                y: b
-            }
+            Point { x: a, y: b }
         }
     }
 
@@ -158,43 +155,62 @@ fn main() {
     // Enums also support methods
 
     impl OptionalI32 {
-        fn new(x: i32) -> OptionalI32  {
+        fn new(x: i32) -> OptionalI32 {
             OptionalI32::AnI32(x)
         }
     }
 
-    /////////////////////////
-    // 3. Pattern matching //
-    /////////////////////////
+    //////////////////////
+    // Pattern matching //
+    //////////////////////
 
     // Pattern matching is switch on steroids... Not only can you match on
     // values, but also on enum variants
     let foo = OptionalI32::AnI32(1);
     match foo {
         OptionalI32::AnI32(n) => println!("it’s an i32: {}", n),
-        OptionalI32::Nothing  => println!("it’s nothing!"),
+        OptionalI32::Nothing => println!("it’s nothing!"),
     }
 
     // Advanced pattern matching
-    struct FooBar { x: i32, y: OptionalI32 }
-    let bar = FooBar { x: 15, y: OptionalI32::AnI32(32) };
+    struct FooBar {
+        x: i32,
+        y: OptionalI32,
+    }
+    let bar = FooBar {
+        x: 15,
+        y: OptionalI32::AnI32(32),
+    };
 
     match bar {
-        FooBar { x: 0, y: OptionalI32::AnI32(0) } =>
-            println!("The numbers are zero!"),
-        FooBar { x: n, y: OptionalI32::AnI32(m) } if n == m =>
-            println!("The numbers are the same"),
-        FooBar { x: n, y: OptionalI32::AnI32(m) } =>
-            println!("Different numbers: {} {}", n, m),
-        FooBar { x: _, y: OptionalI32::Nothing } =>
-            println!("The second number is Nothing!"),
+        FooBar {
+            x: 0,
+            y: OptionalI32::AnI32(0),
+        } => println!("The numbers are zero!"),
+        FooBar {
+            x: n,
+            y: OptionalI32::AnI32(m),
+        } if n == m =>
+        {
+            println!("The numbers are the same")
+        }
+        FooBar {
+            x: n,
+            y: OptionalI32::AnI32(m),
+        } => println!("Different numbers: {} {}", n, m),
+        FooBar {
+            x: _,
+            y: OptionalI32::Nothing,
+        } => println!("The second number is Nothing!"),
     }
 
-    /////////////////
-    // 4. Generics //
-    /////////////////
+    //////////////
+    // Generics //
+    //////////////
 
-    struct Foo<T> { bar: T }
+    struct Foo<T> {
+        bar: T,
+    }
 
     fn identity<T>(x: T) -> T {
         x
@@ -210,7 +226,7 @@ fn main() {
         fn multiply(self, factor: i32) -> Point {
             Point {
                 x: self.x * factor,
-                y: self.y * factor
+                y: self.y * factor,
             }
         }
     }
@@ -218,9 +234,9 @@ fn main() {
     let another_point = Point { x: 1, y: 2 };
     println!("{:?}", another_point.multiply(2).get_x()); // 2
 
-    /////////////////////
-    // 5. Control flow //
-    /////////////////////
+    //////////////////
+    // Control flow //
+    //////////////////
 
     // `for` loops/iteration
     let array = [1, 2, 3];
@@ -247,11 +263,7 @@ fn main() {
     }
 
     // `if` is also an expression!
-    let value = if true {
-        "good"
-    } else {
-        "bad"
-    };
+    let value = if true { "good" } else { "bad" };
 
     // `while` loop
     let mut flag = true;
@@ -268,9 +280,9 @@ fn main() {
         break;
     }
 
-    /////////////////////////////////
-    // 5. Memory safety & pointers //
-    /////////////////////////////////
+    //////////////////////////
+    // Ownership & pointers //
+    //////////////////////////
 
     // Smart pointer to a value on the heap. Deallocated when it falls out of scope.
     let mut mine: Box<i32> = Box::new(3);
@@ -296,6 +308,23 @@ fn main() {
     *ref_var2 += 2;
 
     println!("{}", *ref_var2); // 6
+
+    //////////////
+    // Closures //
+    //////////////
+
+    // A closure with 2 arguments
+    let sum = |x, y| x + y;
+    println!("{}", sum(1, 2)); // 3
+
+    // A closure with no arguments
+    let no_args = || 42;
+    println!("{}", no_args()); // 42
+}
+
+#[test]
+fn a_unit_test() {
+    assert!(true == true);
 }
 
 // Adapted from https://learnxinyminutes.com/docs/rust/
